@@ -6,9 +6,10 @@ session_start();
 // die;
 
 if(isset($_POST['submit'])){
-	if($_POST['cheat_name'] != ''){
-		$name = $_POST['cheat_name'];
-		$sql = "INSERT INTO cheatlist(cheat_name) VALUES('$name')";
+	if($_POST['name_pricelist'] != '' and $_POST['price'] != ''){
+		$name = $_POST['name_pricelist'];
+		$price = $_POST['price'];
+		$sql = "INSERT INTO pricelist(name_pricelist, price) VALUES('$name', '$price')";
 		$res = $conn->query($sql);
 		if(!$res){
 			echo $conn->error; print_r($res); die;
@@ -20,10 +21,12 @@ if(isset($_POST['submit'])){
 }
 
 if(isset($_GET['update'])){
-	if($_POST['cheat_name'] != '' and $_POST['id_cheat'] != ''){
-		$name = $_POST['cheat_name'];
-		$id = $_POST['id_cheat'];
-		$sql = "UPDATE cheatlist SET cheat_name='$name' WHERE id_cheat='$id'";
+	if($_POST['name_pricelist'] != '' and $_POST['id_pricelist'] != '' and $_POST['price']){
+		
+		$name = $_POST['name_pricelist'];
+		$price = $_POST['price'];
+		$id = $_POST['id_pricelist'];
+		$sql = "UPDATE pricelist SET name_pricelist='$name', price='$price' WHERE id_pricelist='$id'";
 		$res = $conn->query($sql);
 		if(!$res){
 			echo $conn->error; print_r($res); die;
@@ -36,7 +39,7 @@ if(isset($_GET['update'])){
 
 if(isset($_GET['del'])){
 	$id = $_GET['del'];
-	$sql = "DELETE FROM cheatlist WHERE id_cheat='$id'";
+	$sql = "DELETE FROM pricelist WHERE id_pricelist='$id'";
 	$res = $conn->query($sql);
 	if(!$res){
 		echo $conn->error; print_r($res); die;
@@ -60,9 +63,9 @@ $keyword = '';
 if (isset($_GET['search'])) {
 	$keyword = $_GET['search'];
 }
-$cheat_sql = "SELECT * FROM cheatlist WHERE cheat_name LIKE '%$keyword%' LIMIT $mulai, $halaman";
-$cheat_list = $conn->query($cheat_sql);
-if (!$cheat_list) {
+$price_sql = "SELECT * FROM pricelist WHERE name_pricelist LIKE '%$keyword%' LIMIT $mulai, $halaman";
+$price_list = $conn->query($price_sql);
+if (!$price_list) {
 	echo $conn->error;
 }
 ?>
@@ -71,19 +74,9 @@ if (!$cheat_list) {
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header d-flex justify-content-between">
-				<h2 class="">Daftar Cheat</h2>
+				<h2 class="">Daftar Harga</h2>
 				<div class="form-add d-flex align-items-end">
-					<form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
-						<div class="input-group hidden" id="input-new-cheat">
-							<script type="text/javascript">
-								$('#input-new-cheat').hide()
-							</script>
-							<input type="text" name="cheat_name" id="cheat-name" class="form-control" placeholder="Masukan Nama Cheat" required>
-							<input type="submit" value="&check;" name="submit" class="btn btn-xs btn-success float-right">
-							<button class="btn btn-xs btn-danger float-right" id="btn-add-cancel">&times;</button>
-						</div>
-					</form>
-					<button class="btn btn-xs btn-primary float-right " data-mdb-toggle="animation" data-mdb-animation-reset="true" data-mdb-animation="slide-out-right" id="btn-add-new">New</button>
+					<button class="btn btn-xs btn-primary float-right " data-bs-toggle="modal" data-bs-target="#add-modal" id="btn-add-new">New</button>
 				</div>
 			</div>
 			<div class="card-body">
@@ -102,17 +95,19 @@ if (!$cheat_list) {
 					<tr class="text-center">
 						<th>No</th>
 						<th>Nama</th>
+						<th>Harga</th>
 						<th>Aksi</th>
 					</tr>
 
-					<?php $n=$mulai+1; while($row = $cheat_list->fetch_object()):  ?>
+					<?php $n=$mulai+1; while($row = $price_list->fetch_object()):  ?>
 					<tr>
 						<td class="text-center" ><?=$n?></td>
-						<td><?=$row->cheat_name?></td>
+						<td><?=$row->name_pricelist?></td>
+						<td>Rp. <?=number_format($row->price,0,',','.')?></td>
 						<td class="text-end">
 							<div class="btn-group">
-								<button data-bs-toggle="modal" onclick="fillUpdate('<?=$row->cheat_name?>','<?=$row->id_cheat?>')" data-bs-target="#update-modal"  type="button" class="btn btn-sm btn-warning float-right">Update</button>
-								<a href="<?=$_SERVER['PHP_SELF']?>?del=<?=$row->id_cheat?>" type="button" class="btn btn-sm btn-danger float-right">Delete</a>
+								<button data-bs-toggle="modal" onclick="fillUpdate('<?=$row->name_pricelist?>','<?=$row->price?>','<?=$row->id_pricelist?>')" data-bs-target="#update-modal"  type="button" class="btn btn-sm btn-warning float-right">Update</button>
+								<a href="<?=$_SERVER['PHP_SELF']?>?del=<?=$row->id_pricelist?>" type="button" class="btn btn-sm btn-danger float-right">Delete</a>
 							</div>
 
 						</td>
@@ -123,7 +118,7 @@ if (!$cheat_list) {
 		<div class="row">
 			<!-- PHP PAGINATION -->
 			<?php 
-			$total = $conn->query("SELECT * FROM cheatlist WHERE cheat_name LIKE '%$keyword%'")->num_rows;
+			$total = $conn->query("SELECT * FROM pricelist WHERE name_pricelist LIKE '%$keyword%'")->num_rows;
 			$pages = ceil($total/$halaman); 
 			?>
 			<nav aria-label="Page navigation">
@@ -157,8 +152,12 @@ if (!$cheat_list) {
 				<form action="<?=$_SERVER['PHP_SELF']?>?update=true" method="POST">
 					<div class="from-group mb-3">
 						<label for="nama">Nama Cheat</label>
-						<input type="text" class="form-control" id="cheat_name" name="cheat_name">
-						<input type="hidden" class="form-control" id="id_cheat" name="id_cheat">
+						<input type="text" class="form-control" id="name_pricelist" name="name_pricelist">
+						<input type="hidden" class="form-control" id="id_pricelist" name="id_pricelist">
+					</div>
+					<div class="from-group mb-3">
+						<label for="nama">Harga Cheat</label>
+						<input type="text" class="form-control" id="price-input" name="price">
 					</div>
 					<input type="submit" class="btn btn-primary" value="Update">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -168,29 +167,42 @@ if (!$cheat_list) {
 		</div>
 	</div>
 </div>
+<!-- modal Add -->
+<div class="modal fade" tabindex="-1" id="add-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Add Data</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="<?=$_SERVER['PHP_SELF']?>?update=true" method="POST">
+					<div class="from-group mb-2">
+						<label for="nama">Nama Cheat</label>
+						<input type="text" class="form-control" name="name_pricelist">
+					</div>
+					<div class="from-group mb-2">
+						<label for="nama">Harga</label>
+						<input type="number" class="form-control"name="price" autocomplete="off">
+					</div>
+					<input type="submit" class="btn btn-primary" name="submit" value="Add">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 <?php require_once 'template/footer.php'; ?>
 <script type="text/javascript">
-	$(document).ready(function(){
-		const btnAdd = $('#btn-add-new')
-		const btnCancel = $('#btn-add-cancel')
-		const form = $('#input-new-cheat')
-		form.hide()
-		btnAdd.on('click', function(){
-			btnAdd.hide()
-			form.fadeIn()
-		})
 
-		btnCancel.on('click', function(event){
-			btnAdd.fadeIn()
-			form.hide()
-			event.preventDefault()
-		})
-	})
-
-	function fillUpdate(name, id){
-		const cheat_name = $('#cheat_name')
-		const id_cheat = $('#id_cheat')
-		cheat_name.val(name)
-		id_cheat.val(id)
+	function fillUpdate(name, price, id){
+		const name_pricelist = $('#name_pricelist')
+		const priceinp = $('#price-input')
+		const id_pricelist = $('#id_pricelist')
+		name_pricelist.val(name)
+		priceinp.val(price)
+		id_pricelist.val(id)
 	}
+
 </script>

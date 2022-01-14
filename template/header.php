@@ -25,7 +25,7 @@
           <li><a href="register.php">Sign Up</a></li>
         <?php else: ?>
           <li><a href = "pesanan.php">Pesanan</a></li>
-          <li><a href = "profil.php"><?=$_SESSION['name']?></a></li>
+          <li><a href = "profil.php" style="padding: 0px;"><?=$_SESSION['name']?></a></li>
           <li><a href = "logout.php">Logout</a></li>
         <?php endif ?>
         </ul>
