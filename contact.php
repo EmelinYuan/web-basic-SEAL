@@ -8,7 +8,7 @@
         <h2> VVIP ENJOYERS </h2>
         <p>A Solution for an GAMERS ! </p>
         <p>EASY FOR PUSH RANK OR LEVEL UP! </p>
-        <p><a href="" class ="tbl-pink"> WHATSAPP ME!</a></p>
+        <p><a href="https://wa.me/628973940550" class ="tbl-pink"> WHATSAPP ME!</a></p>
       </div>
     </section>
 <?php require_once 'template/footer.php'; ?>

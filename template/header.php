@@ -12,7 +12,7 @@
 <body>
   <nav>
     <div class="wrapper">
-      <div class="logo"><a href=''>VVIP ENJOYERS ! </a></div>
+      <div class="logo"><a href=''>HOLADOC ! </a></div>
       <div class="menu">
         <ul>
           <li><a  href = "index.php">Home</a></li>
@@ -25,7 +25,7 @@
           <li><a href="register.php">Sign Up</a></li>
         <?php else: ?>
           <li><a href = "pesanan.php">Pesanan</a></li>
-          <li><a href = "profil.php" style="padding: 0px;"><?=$_SESSION['name']?></a></li>
+          <li><a href = "#" style="padding: 0px;"><?=$_SESSION['name']?></a></li>
           <li><a href = "logout.php">Logout</a></li>
         <?php endif ?>
         </ul>

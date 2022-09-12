@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 13, 2022 at 03:00 PM
+-- Generation Time: Jan 14, 2022 at 09:15 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -37,20 +37,6 @@ CREATE TABLE `cheatlist` (
 --
 
 INSERT INTO `cheatlist` (`id_cheat`, `cheat_name`) VALUES
-(5, 'Cheat ML'),
-(7, 'asdasdf'),
-(8, 'sdsdsd'),
-(9, 'daadad'),
-(10, 'daad'),
-(11, 'daadad'),
-(12, 'daadad'),
-(13, 'adad'),
-(14, 'dadad'),
-(15, 'dadadad'),
-(16, 'adadad'),
-(17, 'dadadad'),
-(18, 'dsdsd'),
-(19, 'sdsd');
 
 -- --------------------------------------------------------
 
@@ -67,6 +53,13 @@ CREATE TABLE `order_list` (
   `date_created` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `order_list`
+--
+
+INSERT INTO `order_list` (`id_order`, `id_user`, `id_pricelist`, `qty`, `status`, `date_created`) VALUES
+(2, '1', '4', 1, 'accepted', '14-01-2022 08:59:20');
+
 -- --------------------------------------------------------
 
 --
@@ -78,6 +71,28 @@ CREATE TABLE `pricelist` (
   `name_pricelist` varchar(155) NOT NULL,
   `price` varchar(155) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pricelist`
+--
+
+INSERT INTO `pricelist` (`id_pricelist`, `name_pricelist`, `price`) VALUES
+(4, 'aaasd', '12312323'),
+(5, 'ada21', '121233123'),
+(6, 'aaasd', '12312323'),
+(7, 'ada21', '121233123'),
+(8, 'aaasd', '12312323'),
+(9, 'ada21', '121233123'),
+(10, 'aaasd', '12312323'),
+(11, 'ada21', '121233123'),
+(12, 'aaasd', '12312323'),
+(13, 'ada21', '121233123'),
+(14, 'aaasd', '12312323'),
+(15, 'ada21', '121233123'),
+(16, 'aaasd', '12312323'),
+(17, 'ada21', '121233123'),
+(18, 'aaasd', '12312323'),
+(19, 'ada21', '121233123');
 
 -- --------------------------------------------------------
 
@@ -99,9 +114,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `name`, `password`, `role`) VALUES
-(1, 'irpannawawi.ixd@gmail.com', 'user', 'Irpan Nawawi', '123', 'user'),
-(2, 'irpannawawi@gmail.com', 'user1', 'Irpan Nawawi', '123', 'user'),
-(3, 'irpannawawi.@gmail.com', 'admin', 'Irpan Nawawi', '123', 'user'),
 (4, 'admin@admin.com', 'admin', 'Admin', 'admin', 'admin');
 
 --
@@ -140,25 +152,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cheatlist`
 --
 ALTER TABLE `cheatlist`
-  MODIFY `id_cheat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_cheat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pricelist`
 --
 ALTER TABLE `pricelist`
-  MODIFY `id_pricelist` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pricelist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

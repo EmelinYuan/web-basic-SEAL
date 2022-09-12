@@ -6,7 +6,7 @@ $cheat_list = $conn->query($sql);
 ?>
   <!--Untuk Home-->
   
-        <h1 align="center">Berikut daftar cheat yang bisa kami handle</h1>
+  <p><a href="https://wa.me/628973940550" class ="tbl-pink"> WHATSAPP ME!</a></p>
         <hr>
         <div style="width: 400px; margin: 0px auto;font-size: 20px;"> 
               <ol>
